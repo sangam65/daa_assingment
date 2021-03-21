@@ -1,0 +1,313 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+\usepackage{float}
+\usepackage{lipsum}
+\usepackage{sectsty}
+\sectionfont{\centering}
+\usepackage{multicol}
+\usepackage{xcolor}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[font=small]{caption}
+\addtolength{\abovecaptionskip}{-3mm}
+\addtolength{\textfloatsep}{-5mm}
+\setlength\columnsep{20pt}
+
+\usepackage[a4paper,left=1.50cm, right=1.50cm, top=2cm, bottom=3cm]{geometry}
+
+
+\author{}
+
+\title{\Large{Design and Analysis of Algorithms Assignment - 4}}
+
+\begin{document}
+	
+	\begin{center}
+		{\Large \textbf{Design and Analysis of Algorithms Assignment - 4}}\\
+		\vspace{1em}
+		{\large Department of Information Technology,}\\
+		\vspace{1em}
+		\large{Indian Institute of Information Technology, Allahabad 211015, India}\\
+		\vspace{1em}
+		\large{Suhaib Khan(IIB2019039), Sangam Barnwal(IIT2019094), Sanjana Reddy (IIT2019095)}
+		\vspace{2.5em}
+		
+	\end{center}
+	
+\begin{multicols*}{2}
+
+    \textbf{\emph{{Abstract}: Given an array and a value x,the problem is  to find the floor of x which is the largest element in the array greater than or equal to x.In this paper,we will see the algorithm using divide and conquer approach to solve the problem.Then we will analyse the time complexity of the algorithm.We will see a O(log n) solution which will be much faster than the brute force approach.}}\\
+	
+	\textbf{\emph{{Index Terms}: Arrays, Divide and Conquer, Binary search \\}}
+
+
+\section*{INTRODUCTION}
+ 
+We are given an array and a value x whose floor is to be found.A naive solution  can be to traverse through the array and find the first element greater than x. The element just before the found element is the floor of x.This is similar to linear search and gives the O(n) solution.If this solution uses linear search ,we can get the intuitive idea of using binary search to solve the problem efficiently.
+\paragraph{Divide and Conquer}
+Divide and Conquer is an algorithmic paradigm. A typical Divide and Conquer algorithm solves a problem using following three steps.
+
+\begin{enumerate}
+    \item\textbf{Divide:} Break the given problem into subproblems of same type.
+    \item\textbf{Conquer:} Recursively solve these subproblems.
+    \item\textbf{Combine:} Appropriately combine the answers.\\
+\end{enumerate}
+\\\\This report further contains:
+\begin{itemize}
+\item 	Algorithm  Designs
+\item 	Algorithm  Analysis
+\item 	Experimental Study and Profiling
+\item 	Conclusion
+\item 	References
+\item 	Appendix
+\end{itemize}
+
+\section*{ALGORITHM DESIGN}
+The algorithm is based on binary search which is a divide and conquer approach.Given the array and x,we will first calculate the middle index of array,which is the divide step as it divides the array into half.Then depending on the condition that x is greater than or less than the middle element we will recursively call the function but with upper half or lower half of array respectively,which is the conquer step.The array gets divided in half and function returns when middle element of the current array is equal to x or when array has one or less element.This procedure gets close to the number step by step.
+
+\paragraph{Algorithmic Steps:}
+
+\begin{enumerate}
+
+\item Create three variables l = 0, mid and r = n-1.
+\item	 Recurse until and unless low is less than high.
+\item	check if the middle ( (l + r) /2) element is equal than x, if yes then return the mid index.
+\item else check if middle element is greater than x ,if yes then update the r, i.e r = mid - 1, and recurse. In this step we are reducing the search space to half.
+\item  Else update the l, i.e l = mid +1 and recurse.
+\item	when l $\geq$r ,return l.
+\item	If arr[l] = x,floor = x.
+
+\item	If arr[l] $<$ x,floor = arr[l].
+\item	If arr[l]$>x$and l\ne0 ,floor = arr[l-1]
+
+\item  else floor not present.
+\end{enumerate}
+
+
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5},
+    basicstyle=\footnotesize,
+}
+
+\begin{lstlisting}
+
+
+
+int:
+Function floorSearch(int arr[],int l.int r,int x)
+if (l>=r)
+    return l
+    
+else
+  int mid =(l+r)/2
+  if (arr[mid] == x) 
+	  return mid
+  else if (arr[mid] > x) 
+	  return floorSearch(arr, l, mid - 1, x)
+  else
+	  return floorSearch(arr, mid + 1, r, x)
+
+int:
+Function main()
+  int arr[]
+  input arr
+  int n=sizeof(arr) / sizeof(arr[0])
+  int x
+  input x
+  int result = floorSearch(arr, 0, n - 1, x); 
+  
+   if(arr[result]==x)
+    	print x
+    else if(arr[result]<x&&arr[result+1]>x)
+		
+		print arr[result];
+		
+    else if(arr[result]>x&&result!=0)
+		print arr[result-1];
+	else
+	    print -1;
+ 
+  
+ 
+\end{lstlisting}
+    
+
+	
+\section*{ALGORITHM ANALYSIS} 
+	
+APRIORI ANALYSIS: We have tried to do the Apriori Analysis of the approach based on Divide and Conquer.\\\\Let T(n) and S(n) is the time and space respectively.
+
+\paragraph{TIME COMPLEXITY DERIVATION:} Let Time complexity of above algorithm be T(n). In the base case the funtion compares l,r and returns which takes constant time.Otherwise, comparison and calculation of the middle element will take constant time and then the problem is divided into another problem of size 
+n/2 (either floorSearch(arr, l, mid - 1, x) or floorSearch(arr, mid + 1, r, x). 
+
+\textbf{TIME COMPLEXITY DERIVATION:}
+\rule{9cm}{1pt}
+\textit{
+T(n) = T(n/2) + c\\
+\\
+Using above relation, we get for T/2, T/8 etc as:\\
+T(n/2) = T(n/4) + c\\
+T(n/4) = T(n/8) + c\\
+T(n/8) = T(n/16) + c and so on……\\
+.\\
+.\\
+.\\
+.\\
+T(n)=T(n/2$^k$)+c+c+c...+c\\
+when n=2$^k$,T(n)=T(1)+c*$log_2 n$\\}
+\rule{9cm}{1pt}\paragraph{DIFFERENT CASES:} Now let us consider our algorithm in different 
+scenarios.\\\\\textbf{BEST CASE:} The time complexity of Divide and Conquer approach in the best case is O(1) ,as there will be one element in the array which will be compared and returned in constant time.\\\\\textbf{AVERAGE CASE:}The average case complexity is same as worst case that is O(log n). \\\\\textbf{WORST CASE:} The worst case compexity as derived from the recurrence realtion is O(log n).
+\rule{9cm}{1pt}
+\paragraph{SPACE COMPLEXITY:} The space compexity of the algorithm is O(n).
+
+
+\section*{PROFILING}
+
+So, after the above analysis of Apriori Analysis, we come to the Posteriori Analysis or Profiling. Now let us have the glimpse of space and time graph.
+
+\paragraph{TIME ANALYSIS:}
+The data for execution time(in ms) with respect to n is tabulated below.
+\\
+\begin{center}
+ \begin{tabular}{||c c||} 
+ \hline
+  n& time(ms)\\ [0.5ex] 
+ \hline\hline
+ 100 & 0.014 \\ 
+ \hline
+ 1000 & 0.015\\
+ \hline
+ 10000 & 0.039\\
+ \hline
+ 100000 & 0.203 \\
+ \hline
+ 1000000 & 2.146\\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+
+\includegraphics[width=\columnwidth, height=8cm]{Time Complexity.png}\begin{center}\textbf{Figure 1:} Time Complexity Graph\end{center}
+
+\paragraph{SPACE ANALYSIS:}Following is the graph representing the space complexity of the algorithm.\\\\\\
+\includegraphics[width=\columnwidth, height=8cm]{Space Complexity.png}\begin{center}\textbf{Figure 2:} Space Complexity Graph\end{center}By the experimental analysis, we found that in case of optimized approach, on increasing value of n (increasing the number of elements in array) the graph is strictly increasing Thus the overall space increases with an increase in no. of elements
+
+
+\section*{CONCLUSION}
+
+So, with the above mentioned algorithms and their profiling, we come to the conclusion that this  problem of finding the floor of a given number in a sorted  array is achieving its best time complexity of O(logn) and space complexity of O(n).\\\\
+
+\section*{ACKNOWLEDGMENT}
+
+We are very much grateful to our Course instructor Dr Mohammed Javed and our mentor, Md Meraz, who have provided the great opportunity to do this wonderful work on the subject of Data Structure and Algorithm Analysis specifically on the programming paradigm of Divide and Conquer.
+
+\section*{REFERENCES}
+
+\begin{enumerate}
+\item Introduction to Divide and Conquer Technique:\\
+https://www.geeksforgeeks.org/divide-and-conquer-algorithm-introduction/
+\item Introduction to Algorithms by Cormen,Charles, Rivest and Stein.\\
+https://web.ist.utl.pt/~fabio.ferreira/material/asa
+\end{enumerate}
+
+\end{multicols*}
+
+\newpage
+\section*{APPENDIX}
+\textbf{To run the code, follow the following procedure:}\\
+\begin{enumerate}
+    \item Download the code(or project zip file) from the github repository.
+    \item Extract the zip file downloaded above.
+    \item Open the code with any IDE like Sublime Text, VS Code, Atom or some online compilers like GDB.
+    \item If required, save the code with your own desirable name and extension is .cpp
+    \item Run the code following the proper running commands(vary from IDE to IDE)
+    \begin{enumerate}
+        \item \textbf{For VS Code:} Press Function+F6 key and provide the input on the terminal.
+        \item \textbf{For Sublime Text:} Click on the Run button and provide the input.\\
+    \end{enumerate}
+\end{enumerate}
+\textbf{Code for Implementation is:}
+\lstset { %
+    language=C++,
+    backgroundcolor=\color{black!5},
+    basicstyle=\footnotesize,
+}
+
+\begin{lstlisting}
+
+
+#include <bits/stdc++.h> 
+using namespace std; 
+
+int floorSearch(int arr[], int l, int r, int x) 
+{ 
+	if (r > l) { 
+		int mid =(r + l) / 2;
+
+		if (arr[mid] == x) 
+			return mid; 
+
+		if (arr[mid] > x) 
+			return floorSearch(arr, l, mid - 1, x); 
+
+		return floorSearch(arr, mid + 1, r, x); 
+	} 
+	if(r<=l)
+
+		return l; 
+			
+
+
+}
+int main(void) 
+{ 
+	int n;
+	cin>>n;
+	
+	int arr[n]; 
+	int x ; 
+
+	cin>>x;
+	for(int i=0;i<n;i++)
+	cin>>arr[i];
+	int result =floorSearch(arr, 0, n - 1, x); 
+
+	if(arr[result]==x)
+	cout<< x;
+	else if(arr[result]<x&&arr[result+1]>x)
+		{
+				cout<< arr[result];
+		}
+		else
+		{
+			if(arr[result]>x&&result!=0)
+			cout<< arr[result-1];
+			else
+			cout<<-1;
+		}
+}
+		
+
+
+	
+
+
+
+		
+
+
+
+\end{lstlisting}
+\clearpage
+
+	
+\end{document}
