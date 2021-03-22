@@ -89,7 +89,8 @@ We will take input n and x from the user.Then we will use binary search to find 
 ```
 For all the cases : o(log(n))
 ```
-We are using binary search, so the time complexity required is O(log n).
+We are using binary search, so the time complexity required is O(log n).<br \>
+
 **Space Complexity**
 ```
 For all the cases : o(n)
