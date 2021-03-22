@@ -92,9 +92,8 @@ For all the cases : o(log(n))
 We are using binary search, so the time complexity required is O(log n).
 **Space Complexity**
 ```
-For all the cases : o(1)
+For all the cases : o(n)
 ```
-As no extra space is required, so the space complexity is constant.
 
 ---
 ### References
